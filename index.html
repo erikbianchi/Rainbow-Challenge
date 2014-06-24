@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+    <head>
+
+        <title></title>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/rainbow.css">
+
+    </head>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+
+    <script src="js/com/erikbianchi/utils/namespace.js"></script>
+    <script src="js/com/erikbianchi/rainbowchallenge/shapes/rainbow/FillRainbow.js"></script>
+    <script src="js/com/erikbianchi/rainbowchallenge/tweens/bubbles.js"></script>
+
+    <script>
+
+        var BEHIND_THE_RAINBOW_ZINDEX = 1;
+        var RAINBOW_ZINDEX = 2;
+        var OVER_THE_RAINBOW_ZINDEX = 3;
+
+
+        var rainbow = namespace("com.erikbianchi.rainbowchallenge.shapes.rainbow");
+        var bubbleTween = namespace("com.erikbianchi.rainbowchallenge.tweens.bubbles");
+        var fillRainbow;
+        var fillRainbow2;
+
+
+        function onRainbowFadeInComplete()
+        {
+            bubbleTween.animate();
+        }
+
+
+        function createRainbow()
+        {
+            fillRainbow = new rainbow.FillRainbow(500, 250);
+
+            var x = ( window.innerWidth - fillRainbow.getWidth() ) / 2;
+            var y = ( window.innerHeight - fillRainbow.getHeight() );
+            fillRainbow.setPosition(x,y);
+
+            var div = fillRainbow.getDiv();
+            div.style.zIndex = RAINBOW_ZINDEX;
+            document.body.appendChild(div);
+            div.style.opacity = 0;
+
+            TweenLite.to(div, 2, {opacity:1, delay:1, ease:Power1.easeOut, onComplete:onRainbowFadeInComplete});
+
+            bogFillRainbow = new rainbow.FillRainbow(2000, 1000);
+
+            var x = ( window.innerWidth - bogFillRainbow.getWidth() ) / 2;
+            var y = ( window.innerHeight - bogFillRainbow.getHeight() );
+            bogFillRainbow.setPosition(x,y);
+
+            div = bogFillRainbow.getDiv();
+            div.style.zIndex = RAINBOW_ZINDEX;
+            document.body.appendChild(div);
+            div.style.opacity = 0;
+
+            TweenLite.to(div, 2, {opacity:.4, delay:1.4, ease:Power1.easeOut});
+
+        }
+
+
+        function initBobs()
+        {
+            var bob;
+            var bobs = [];
+            var i = 0;
+            while(i < 9)
+            {
+                bob = document.getElementById("bob"+i++);
+                bob.style.position = "absolute";
+                bob.style.top = window.innerHeight+"px";
+
+                var size = Math.floor( Math.random() * (250 - 20 + 1) + 20 );
+                bob.style.zIndex =  size < 150 ? BEHIND_THE_RAINBOW_ZINDEX : OVER_THE_RAINBOW_ZINDEX;
+                bob.style.opacity = size < 150 ?  (size - 30) / 100 : 1;
+                bob.style.width = bob.style.height = size+'px';
+                bobs.push(bob);
+            }
+
+            bubbleTween.init(bobs);
+        }
+
+
+        function onLoad()
+        {
+            initBobs();
+            createRainbow();
+        }
+
+</script>
+
+    <body onload="onLoad()">
+        <img id="bob0" src="img/bob_ross.png"/>
+        <img id="bob1" src="img/bob_ross.png"/>
+        <img id="bob2" src="img/bob_ross.png"/>
+        <img id="bob3" src="img/bob_ross.png"/>
+        <img id="bob4" src="img/bob_ross.png"/>
+        <img id="bob5" src="img/bob_ross.png"/>
+        <img id="bob6" src="img/bob_ross.png"/>
+        <img id="bob7" src="img/bob_ross.png"/>
+        <img id="bob8" src="img/bob_ross.png"/>
+    </body>
+
+</html>
