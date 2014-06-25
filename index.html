@@ -25,11 +25,12 @@
 
     <script>
 
+        // static
         var BEHIND_THE_RAINBOW_ZINDEX = 1;
         var RAINBOW_ZINDEX = 2;
         var OVER_THE_RAINBOW_ZINDEX = 3;
 
-
+        // instance
         var rainbow = namespace("com.erikbianchi.rainbowchallenge.shapes.rainbow");
         var bubbleTween = namespace("com.erikbianchi.rainbowchallenge.tweens.bubbles");
         var fillRainbow;
@@ -68,7 +69,7 @@
             document.body.appendChild(div);
             div.style.opacity = 0;
 
-            TweenLite.to(div, 2, {opacity:.4, delay:1.4, ease:Power1.easeOut});
+            TweenLite.to(div, 2, {opacity:.3, delay:1.4, ease:Power1.easeOut});
 
         }
 
